@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 public class OrderDto {
         private Integer id;
         private String code;
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String phone;
+        private CustomerDto customer;
         private String address1;
         private String address2;
         private String city;

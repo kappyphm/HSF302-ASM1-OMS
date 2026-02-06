@@ -1,14 +1,13 @@
 package crs.hsf302.assignment1.repository;
 
-import crs.hsf302.assignment1.domain.entity.Order;
+import crs.hsf302.assignment1.domain.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface OrderRepo extends JpaRepository<Order, Integer> {
-    List<Order> findAllOrdersByProgramId(UUID programId);
+public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+    Optional<Customer> findByEmail(String email);
 }

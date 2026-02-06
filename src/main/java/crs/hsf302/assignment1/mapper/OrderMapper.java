@@ -2,13 +2,20 @@ package crs.hsf302.assignment1.mapper;
 
 import crs.hsf302.assignment1.domain.CreateOrderRequest;
 import crs.hsf302.assignment1.domain.dto.CreateOrderDto;
+import crs.hsf302.assignment1.domain.dto.CustomerDto;
 import crs.hsf302.assignment1.domain.dto.OrderDto;
 import crs.hsf302.assignment1.domain.dto.OrderSummaryDto;
+import crs.hsf302.assignment1.domain.entity.Customer;
 import crs.hsf302.assignment1.domain.entity.Order;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class OrderMapper {
+
+    private final CustomerMapper customerMapper;
+
     public CreateOrderRequest fromDto(CreateOrderDto dto) {
         return CreateOrderRequest.builder()
                 .email(dto.email())
@@ -28,10 +35,10 @@ public class OrderMapper {
         OrderSummaryDto dto = new OrderSummaryDto();
         dto.setId(order.getId());
         dto.setCode(order.getCode());
-        dto.setFullname(order.getFirstName()+" "+order.getLastName());
+        dto.setFullname(order.getCustomer().getFirstName()+" "+order.getCustomer().getLastName());
         dto.setCity(order.getCity());
         dto.setAddress(order.getAddress1());
-        dto.setEmail(order.getEmail());
+        dto.setEmail(order.getCustomer().getEmail());
 
         return dto;
 
@@ -41,10 +48,7 @@ public class OrderMapper {
         return new OrderDto(
                 order.getId(),
                 order.getCode(),
-                order.getFirstName(),
-                order.getLastName(),
-                order.getEmail(),
-                order.getPhone(),
+                customerMapper.toDto(order.getCustomer()),
                 order.getAddress1(),
                 order.getAddress2(),
                 order.getCity(),

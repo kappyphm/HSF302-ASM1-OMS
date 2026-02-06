@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "orders", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"email","program_id"})
-})
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -22,12 +20,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "first_name", columnDefinition = "NVARCHAR(100)")
-    private String firstName;
-    @Column(name = "last_name", columnDefinition = "NVARCHAR(100)")
-    private String lastName;
-    private String phone;
-    private String email;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String address1;
     @Column(columnDefinition = "NVARCHAR(255)")

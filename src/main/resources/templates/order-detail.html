@@ -45,19 +45,19 @@
 
                         <div class="mb-3">
                             <label class="text-secondary small text-uppercase fw-semibold">Full Name</label>
-                            <p class="fs-5 fw-bold m-0" th:text="${order.firstName} + ' ' + ${order.lastName}">John Doe</p>
+                            <p class="fs-5 fw-bold m-0" th:text="${order.customer.firstName} + ' ' + ${order.customer.lastName}">John Doe</p>
                         </div>
 
                         <div class="mb-3">
                             <label class="text-secondary small text-uppercase fw-semibold">Email Address</label>
                             <p class="m-0">
-                                <a th:href="'mailto:' + ${order.email}" class="text-dark text-decoration-none border-bottom border-dark pb-1" th:text="${order.email}">john@example.com</a>
+                                <a th:href="'mailto:' + ${order.customer.email}" class="text-dark text-decoration-none border-bottom border-dark pb-1" th:text="${order.customer.email}">john@example.com</a>
                             </p>
                         </div>
 
                         <div class="mb-3">
                             <label class="text-secondary small text-uppercase fw-semibold">Phone Number</label>
-                            <p class="m-0 fw-medium" th:text="${order.phone}">+1 234 567 890</p>
+                            <p class="m-0 fw-medium" th:text="${order.customer.phone}">+1 234 567 890</p>
                         </div>
                     </div>
 
