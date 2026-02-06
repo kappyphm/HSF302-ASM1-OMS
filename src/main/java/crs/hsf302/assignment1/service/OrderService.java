@@ -32,9 +32,9 @@ public class OrderService {
 
         Country country = countryRepo.findById(req.countryCode()).orElseThrow(() -> new CountryNotFoundException(req.countryCode()));
 
-
-        if (orderRepo.existsByEmailAndProgramId(req.email(), programId)) {
-            throw new DuplicateEmailException(req.email());
+        System.out.println(req.email()+programId);
+        if (orderRepo.existsByEmailAndProgram_Id(req.email(), programId)) {
+            throw new DuplicateEmailException("Email "+req.email()+" đã được sử dụng để đăng ký, vui lòng dùng email khác :))))");
         }
 
         Order newOrder = new Order();
@@ -59,7 +59,7 @@ public class OrderService {
     }
 
     public Order getOrderDetails(Integer orderId) {
-        return orderRepo.findById(orderId).orElseThrow(()->new OrderNotFoundException(orderId.toString()));
+        return orderRepo.findById(orderId).orElseThrow(()->new OrderNotFoundException("Order với id "+orderId.toString()+" không tồn tại"));
     }
 
 }

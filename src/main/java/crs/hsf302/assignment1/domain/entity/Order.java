@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "orders", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"email","country_code"})
+        @UniqueConstraint(columnNames = {"email","program_id"})
 })
 @NoArgsConstructor
 @AllArgsConstructor

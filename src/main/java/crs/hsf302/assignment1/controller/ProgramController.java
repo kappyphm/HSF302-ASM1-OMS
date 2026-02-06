@@ -5,6 +5,7 @@ import crs.hsf302.assignment1.domain.dto.CreateOrderDto;
 import crs.hsf302.assignment1.domain.dto.CreateProgramDto;
 import crs.hsf302.assignment1.domain.dto.ProgramDto;
 import crs.hsf302.assignment1.domain.entity.Program;
+import crs.hsf302.assignment1.exception.DuplicateEmailException;
 import crs.hsf302.assignment1.exception.DuplicateResourcceException;
 import crs.hsf302.assignment1.exception.ProgramNotFoundException;
 import crs.hsf302.assignment1.mapper.CountryMapper;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -42,7 +44,7 @@ public class ProgramController {
 
     @PostMapping(path = "/save")
     public String saveProgram(
-            @ModelAttribute
+            @ModelAttribute("program")
             @Valid
             CreateProgramDto dto,
             BindingResult result,
@@ -52,12 +54,8 @@ public class ProgramController {
             return "program-form";
         }
 
-        try {
-            programService.addProgram(programMapper.fromDto(dto));
-        } catch (DuplicateResourcceException e) {
-            model.addAttribute("error", e.getMessage());
-            return "program-form";
-        }
+        programService.addProgram(programMapper.fromDto(dto));
+
         return "redirect:/programs";
 
     }
@@ -69,50 +67,73 @@ public class ProgramController {
         return "program-list";
     }
 
-    @GetMapping(path = "/{programId}")
-    public String programDetailView(Model model, @PathVariable UUID programId) {
+    @GetMapping(path = "/{programId}/order")
+    public String programFormView(Model model, @PathVariable UUID programId) {
         try {
             Program program = programService.getProgram(programId);
-            model.addAttribute("program", programMapper.toDto(program));
+
+            model.addAttribute("program_name", program.getName());
+            model.addAttribute("program_description", program.getDescription());
+            model.addAttribute("program_id", programId);
             model.addAttribute("order", CreateOrderDto.builder().build());
-            model.addAttribute("countries",countryService.findAll().stream().map(countryMapper::toDto).toList());
-            return "program-detail";
+            model.addAttribute("countries", countryService.findAll().stream().map(countryMapper::toDto).toList());
+
+            return "program-order-detail";
         } catch (ProgramNotFoundException e) {
             model.addAttribute("error", e.getMessage());
             return "error/404";
         }
-
     }
 
     @PostMapping(path = "{programId}/order")
     public String programOrder(
-            @PathVariable
-            UUID programId,
-            @ModelAttribute
-            @Valid
-            CreateOrderDto dto,
+            @PathVariable UUID programId,
+            @ModelAttribute("order") @Valid CreateOrderDto dto,
             BindingResult result,
-            Model model
-
+            Model model,
+            RedirectAttributes redirectAttributes
     ) {
-
-        if (result.hasErrors()) {
-            return "program-detail";
+        try {
+            if (!result.hasErrors()) {
+                orderService.saveOrder(orderMapper.fromDto(dto), programId);
+                return "redirect:/programs";
+            }
+        } catch (DuplicateEmailException e) {
+            model.addAttribute("error", e.getMessage());
+            result.rejectValue("email","error.order",e.getMessage());
+        } catch (ProgramNotFoundException e) {
+            return "error/404";
         }
-        try{
-        orderService.saveOrder(orderMapper.fromDto(dto), programId);
-        model.addAttribute("noti", "Tạo order thành công!");
 
-        return "redirect:/programs";}
-        catch(DuplicateResourcceException e){
-            model.addAttribute("error", e.getMessage());
-            model.addAttribute("order", dto);
-            return "program-detail";
-        }catch(ProgramNotFoundException e){
-            model.addAttribute("error", e.getMessage());
+
+        try {
+            Program program = programService.getProgram(programId);
+            model.addAttribute("program_name", program.getName());
+            model.addAttribute("program_description", program.getDescription());
+            model.addAttribute("program_id", programId);
+            model.addAttribute("countries", countryService.findAll().stream().map(countryMapper::toDto).toList());
+
+            return "program-order-detail";
+
+        } catch (ProgramNotFoundException e) {
             return "error/404";
         }
     }
 
+    @GetMapping(path = "/{programId}")
+    public String programDetailView(
+            Model model,
+            @PathVariable UUID programId
+    ) {
+        try {
+            Program program = programService.getProgram(programId);
+            model.addAttribute("orders", program.getOrders().stream().map(orderMapper::toSummary).toList());
+            return "program-detail";
+        } catch (ProgramNotFoundException e) {
+            return "error/404";
+        }
+
+
+    }
 
 }

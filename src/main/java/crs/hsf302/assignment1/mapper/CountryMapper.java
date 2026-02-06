@@ -12,6 +12,6 @@ public class CountryMapper {
     }
 
     public CountryDto toDto(Country country){
-        return new CountryDto(country.getName(),  country.getCode());
+        return new CountryDto(country.getCode(),  country.getName());
     }
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light text-dark">
+
+<div class="d-flex justify-content-center align-items-center min-vh-100 py-5">
+
+    <div class="container" style="max-width: 800px;">
+
+        <div class="d-flex justify-content-between align-items-end mb-4 px-2">
+            <div>
+                <h2 class="fw-bold mb-0">Order Details</h2>
+                <p class="text-secondary small m-0">View complete information for this order</p>
+            </div>
+            <a href="javascript:history.back()" class="btn btn-outline-dark border-0 rounded-3 fw-semibold">
+                &larr; Back
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+            <div class="card-header bg-white border-bottom-0 pt-4 px-5 pb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-secondary small text-uppercase fw-bold ls-1">Order Code</span>
+                        <h3 class="fw-bold display-6 mt-1" th:text="${order.code}">#ORD-2023-001</h3>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-dark rounded-pill px-3 py-2 fw-normal">Internal ID: <span th:text="${order.id}">123</span></span>
+                    </div>
+                </div>
+                <hr class="mt-4 mb-0 text-secondary opacity-25">
+            </div>
+
+            <div class="card-body p-5 pt-4">
+
+                <div class="row g-5">
+
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-4 border-bottom pb-2">Customer Information</h5>
+
+                        <div class="mb-3">
+                            <label class="text-secondary small text-uppercase fw-semibold">Full Name</label>
+                            <p class="fs-5 fw-bold m-0" th:text="${order.firstName} + ' ' + ${order.lastName}">John Doe</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="text-secondary small text-uppercase fw-semibold">Email Address</label>
+                            <p class="m-0">
+                                <a th:href="'mailto:' + ${order.email}" class="text-dark text-decoration-none border-bottom border-dark pb-1" th:text="${order.email}">john@example.com</a>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="text-secondary small text-uppercase fw-semibold">Phone Number</label>
+                            <p class="m-0 fw-medium" th:text="${order.phone}">+1 234 567 890</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-4 border-bottom pb-2">Shipping Address</h5>
+
+                        <div class="mb-3">
+                            <label class="text-secondary small text-uppercase fw-semibold">Street Address</label>
+                            <p class="m-0 fw-medium" th:text="${order.address1}">123 Main St</p>
+                            <p class="m-0 text-secondary small" th:if="${order.address2}" th:text="${order.address2}">Apt 4B</p>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="text-secondary small text-uppercase fw-semibold">City</label>
+                                <p class="m-0 fw-medium" th:text="${order.city}">New York</p>
+                            </div>
+                            <div class="col-6">
+                                <label class="text-secondary small text-uppercase fw-semibold">Region</label>
+                                <p class="m-0 fw-medium" th:text="${order.region}">NY</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="text-secondary small text-uppercase fw-semibold">Postal Code</label>
+                                <p class="m-0 fw-medium" th:text="${order.postal}">10001</p>
+                            </div>
+                            <div class="col-6">
+                                <label class="text-secondary small text-uppercase fw-semibold">Country</label>
+                                <p class="m-0 fw-bold" th:text="${order.country}">USA</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

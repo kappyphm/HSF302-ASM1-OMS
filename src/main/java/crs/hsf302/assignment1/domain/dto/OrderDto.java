@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class OrderDto {
-    private Integer id;
-    private String code;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String address1;
-    private String address2;
-    private String city;
-    private String region;
-    private String postal;
-    private String country;
+        private Integer id;
+        private String code;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String phone;
+        private String address1;
+        private String address2;
+        private String city;
+        private String region;
+        private String postal;
+        private String country;
 }

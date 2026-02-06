@@ -2,6 +2,7 @@ package crs.hsf302.assignment1.controller;
 
 import crs.hsf302.assignment1.domain.CountryRequest;
 import crs.hsf302.assignment1.domain.dto.CountryDto;
+import crs.hsf302.assignment1.exception.DuplicateCountryCodeException;
 import crs.hsf302.assignment1.exception.DuplicateResourcceException;
 import crs.hsf302.assignment1.mapper.CountryMapper;
 import crs.hsf302.assignment1.service.CountryService;
@@ -32,7 +33,7 @@ public class CountryController {
     @PostMapping(path = "/save")
     public String addCountry(
             @Valid
-            @ModelAttribute
+            @ModelAttribute("country")
             CountryDto dto,
             BindingResult result,
             Model model
@@ -43,8 +44,8 @@ public class CountryController {
         }
         try {
             countryService.save(mapper.fromDto(dto));
-        } catch (DuplicateResourcceException e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (DuplicateCountryCodeException e) {
+            result.rejectValue("code", "error.country", e.getMessage());
             return "country-form";
         }
         return "redirect:/countries";

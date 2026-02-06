@@ -14,8 +14,8 @@
 
             <h3 class="text-center fw-bold mb-4">New Country</h3>
 
-            <div th:if="${error}" class="alert alert-dark text-center py-2 mb-4 rounded-2" role="alert">
-                <small th:text="${error}"></small>
+            <div th:if="${globalError}" class="alert alert-dark text-center py-2 mb-4 rounded-2" role="alert">
+                <small th:text="${globalError}"></small>
             </div>
 
             <form th:action="@{/countries/save}" th:object="${country}" method="post">

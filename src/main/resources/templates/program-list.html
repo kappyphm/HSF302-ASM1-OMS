@@ -30,8 +30,11 @@
                         <small class="text-muted" style="font-size: 0.75rem;" th:text="${'ID: ' + p.id}">UUID</small>
                     </div>
 
-                    <a th:href="@{/programs/{id}(id=${p.id})}" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold">
+                    <a th:href="@{/programs/{id}/order(id=${p.id})}" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold">
                         Access
+                    </a>
+                    <a th:href="@{/programs/{id}(id=${p.id})}" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold">
+                        Detail
                     </a>
                 </div>
 

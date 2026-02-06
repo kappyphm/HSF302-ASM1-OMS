@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface OrderRepo extends JpaRepository<Order, Integer> {
-    Boolean existsByEmailAndProgramId(String email, UUID programId);
+    Boolean existsByEmailAndProgram_Id(String email, UUID programId);
     List<Order> findAllOrdersByProgramId(UUID programId);
 }
