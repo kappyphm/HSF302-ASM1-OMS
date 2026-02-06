@@ -27,6 +27,8 @@ public class Customer {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private List<Order> orders;
 }

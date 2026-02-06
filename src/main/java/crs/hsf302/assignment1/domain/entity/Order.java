@@ -51,6 +51,12 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime date;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     public String getCode(){
         return String.format("ORD%03d",id);
     }
