@@ -23,9 +23,7 @@
                 <h3 class="fw-bold mb-2">Product Order Form</h3>
                 <p class="text-secondary small mb-4">Please fill all the required fields and select your desired product!</p>
 
-                <div th:if="${error}" class="alert alert-dark text-center py-2 mb-4 rounded-2" role="alert">
-                    <span th:text="${error}"></span>
-                </div>
+
 
                 <form th:action="@{/programs/{id}/order(id=${program_id})}" th:object="${order}" method="post">
 
